@@ -53,6 +53,6 @@ python3 contrast.py   # check WCAG contrast of the color tokens (fails below 4.5
 ## Credits and licenses
 
 - Pastello theme: [MIT](LICENSE), © raccoon-overlord-dev.
-- [Atkinson Hyperlegible](https://github.com/googlefonts/atkinson-hyperlegible) by the Braille Institute of America, embedded under the [SIL Open Font License 1.1](fonts/OFL.txt).
-- Folder and file icons from [Lucide](https://lucide.dev) (`folder`, `folder-open`, `file-text`), [ISC License](icons/LICENSE).
+- [Atkinson Hyperlegible](https://github.com/googlefonts/atkinson-hyperlegible) by the Braille Institute of America, embedded under the [SIL Open Font License 1.1](fonts/OFL.txt). The embedded copies have their hinting removed to keep the theme small; all characters are kept.
+- Folder and file icons from [Lucide](https://lucide.dev) (`folder`, `folder-open`, `file-text`), embedded as a three-icon subset of the Lucide icon font, [ISC License](icons/LICENSE).
 - Six-hue palette adapted from a pastel Starship prompt preset ("2a colorful").

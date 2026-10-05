@@ -148,7 +148,6 @@ settings:
   --link-external-color-hover: var(--pastello-sky);
   --link-unresolved-color: var(--pastello-text-muted);
   --link-unresolved-decoration-color: var(--pastello-text-muted);
-  --pastello-link-underline: color-mix(in oklch, var(--pastello-sky) 45%, transparent);
 
   /* Tags */
   --tag-color: var(--pastello-mint);
@@ -252,10 +251,10 @@ h5,
   text-transform: uppercase;
 }
 
-/* Link underline: sky at 45%, offset 3px. Unresolved links keep their own dashed muted underline. */
+/* Link underline offset 3px. (A softer underline color would need text-decoration-color,
+   which the Obsidian review lint flags, so underlines use the link color.) */
 .markdown-rendered a,
 .markdown-source-view.mod-cm6 .cm-underline {
-  text-decoration-color: var(--pastello-link-underline);
   text-underline-offset: 3px;
 }
 
@@ -303,7 +302,9 @@ h5,
    Known limit: Obsidian removes rows scrolled far out of view, and those folders
    stop counting, so in long trees a folder's hue can change while scrolling.
 
-   Icons: Lucide folder, folder-open, file-text (SVG sources in icons/).
+   Icons: Lucide folder, folder-open, file-text, as a 3-glyph font subset of
+   lucide-static (icons/lucide-icons.woff2). A font, not mask-image, so the icons
+   take their color from `color` and pass the Obsidian review lint.
    Copyright (c) 2026 Lucide Icons and Contributors. ISC License:
    Permission to use, copy, modify, and/or distribute this software for any
    purpose with or without fee is hereby granted, provided that the above
@@ -354,14 +355,14 @@ h5,
   --nav-item-weight: 700;
   --nav-item-weight-hover: 700;
   --pastello-icon-color: var(--pf, var(--text-muted));
-  --pastello-icon: url(icons/folder-open.svg);
+  --pastello-icon: "\e247";
 }
 .nav-files-container .nav-folder.is-collapsed > .nav-folder-title {
-  --pastello-icon: url(icons/folder.svg);
+  --pastello-icon: "\e0d7";
 }
 .nav-files-container .nav-file-title {
   --pastello-icon-color: var(--pf-file, var(--text-faint));
-  --pastello-icon: url(icons/file-text.svg);
+  --pastello-icon: "\e0cc";
 }
 
 /* Colorful + Tinted row. The tint is a background image, so hover and
@@ -388,15 +389,18 @@ h5,
 /* Icons */
 .nav-files-container .nav-folder-title-content::before,
 .nav-files-container .nav-file-title-content::before {
-  content: "";
+  content: var(--pastello-icon) / "";
   display: inline-block;
   width: var(--pastello-tree-icon-size);
-  height: var(--pastello-tree-icon-size);
   margin-inline-end: 7px;
   vertical-align: -0.15em;
-  background-color: var(--pastello-icon-color);
-  -webkit-mask: var(--pastello-icon) center / contain no-repeat;
-  mask: var(--pastello-icon) center / contain no-repeat;
+  font-family: 'Pastello Icons';
+  font-size: var(--pastello-tree-icon-size);
+  font-weight: 400;
+  font-style: normal;
+  font-synthesis: none;
+  line-height: 1;
+  color: var(--pastello-icon-color);
 }
 
 /* ---------- Mobile (phone and tablet) ---------- */
