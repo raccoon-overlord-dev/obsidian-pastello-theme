@@ -58,10 +58,13 @@ settings:
   --pastello-tag-hover-pct: 22%;
   --pastello-highlight-pct: 26%;
 
-  /* lavender as HSL, for Obsidian's accent-derived variables */
-  --accent-h: 255;
+  /* Default accent = lavender as HSL. Obsidian's accent color setting overrides these. */
+  --accent-h: 254.5;
   --accent-s: 100%;
-  --accent-l: 87%;
+  --accent-l: 87.1%;
+  /* Text on accent-colored fills: dark ink for light accents, light ink for dark ones. */
+  --pastello-ink-dark: var(--pastello-bg-primary);
+  --pastello-ink-light: var(--pastello-text-strong);
 }
 
 .theme-light {
@@ -88,9 +91,11 @@ settings:
   --pastello-tag-hover-pct: 16%;
   --pastello-highlight-pct: 30%;
 
-  --accent-h: 255;
-  --accent-s: 36%;
-  --accent-l: 49%;
+  --accent-h: 254.9;
+  --accent-s: 36.2%;
+  --accent-l: 49.2%;
+  --pastello-ink-dark: var(--pastello-text-strong);
+  --pastello-ink-light: var(--pastello-bg-primary);
 }
 
 /* ---------- Obsidian variables (same mapping for both modes) ---------- */
@@ -109,19 +114,22 @@ settings:
   --text-normal: var(--pastello-text-normal);
   --text-muted: var(--pastello-text-muted);
   --text-faint: var(--pastello-text-faint);
-  --text-selection: color-mix(in oklch, var(--pastello-lavender) 25%, transparent);
+  --text-selection: color-mix(in oklch, var(--interactive-accent) 25%, transparent);
 
-  /* Accent: pinned to lavender so Obsidian's accent picker can't clash. */
-  --color-accent: var(--pastello-lavender);
-  --color-accent-1: var(--pastello-lavender);
-  --color-accent-2: color-mix(in oklch, var(--pastello-lavender) 85%, var(--pastello-text-strong));
-  --text-accent: var(--pastello-lavender);
+  /* Accent: lavender by default, follows Obsidian's accent color setting.
+     Obsidian lightens --color-accent-1/2 for text in dark mode, which turns a
+     light pastel white, so all accent roles use the accent itself. */
+  --color-accent: hsl(var(--accent-h), var(--accent-s), var(--accent-l));
+  --color-accent-1: var(--color-accent);
+  --color-accent-2: color-mix(in oklch, var(--color-accent) 85%, var(--pastello-text-strong));
+  --text-accent: var(--color-accent);
   --text-accent-hover: var(--color-accent-2);
-  --interactive-accent: var(--pastello-lavender);
+  --interactive-accent: var(--color-accent);
   --interactive-accent-hover: var(--color-accent-2);
-  /* !important: Obsidian's accent picker sets --text-on-accent inline on body,
-     computed for the picked color, not for lavender. */
-  --text-on-accent: var(--pastello-bg-primary) !important;
+  /* Ink picked from the accent's lightness: above 65% dark ink, below light ink.
+     For light picked colors Obsidian itself switches to --text-on-accent-inverted. */
+  --text-on-accent: color-mix(in srgb, var(--pastello-ink-dark) clamp(0%, calc((var(--accent-l) - 65%) * 100), 100%), var(--pastello-ink-light));
+  --text-on-accent-inverted: var(--pastello-ink-dark);
 
   /* Headings */
   --h1-color: var(--pastello-lavender);
@@ -410,11 +418,11 @@ h5,
   --nav-item-children-margin-start: 16px;
 }
 
-/* Bottom bar "+" (new tab, Obsidian 1.12+): lavender tint, lavender icon. */
+/* Bottom bar "+" (new tab, Obsidian 1.12+): accent tint, accent icon (lavender by default). */
 .mobile-navbar-action-new-tab .clickable-icon {
-  --icon-color: var(--pastello-lavender);
-  --icon-color-hover: var(--pastello-lavender);
-  --icon-color-active: var(--pastello-lavender);
-  --icon-color-focus: var(--pastello-lavender);
-  background-color: color-mix(in oklch, var(--pastello-lavender) var(--pastello-tint-pct), transparent);
+  --icon-color: var(--interactive-accent);
+  --icon-color-hover: var(--interactive-accent);
+  --icon-color-active: var(--interactive-accent);
+  --icon-color-focus: var(--interactive-accent);
+  background-color: color-mix(in oklch, var(--interactive-accent) var(--pastello-tint-pct), transparent);
 }

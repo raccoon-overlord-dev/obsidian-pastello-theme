@@ -19,7 +19,6 @@ FACES = {
     "Regular": (400, "normal"),
     "Italic": (400, "italic"),
     "Bold": (700, "normal"),
-    "BoldItalic": (700, "italic"),
 }
 
 

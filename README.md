@@ -27,17 +27,17 @@ Pastello works without any plugin. To change the file explorer style, install th
 | **Folder colors** | **Colorful**: each top-level folder gets its own hue. **Monochrome**: neutral folders. | Colorful |
 | **Colored folder style** | **Colored text**: folder names in their hue. **Tinted row**: a soft tinted row with neutral names. Has no effect in Monochrome. | Colored text |
 
-Pastello uses lavender as its accent color, so Obsidian's accent color setting has no visible effect.
+The accent color (buttons, selection, the mobile "+" button) is lavender by default and follows Obsidian's **Settings → Appearance → Accent color** if you pick one. Headings, links, tags and code keep their pastel colors.
 
 ## Fonts
 
-Text uses **Atkinson Hyperlegible**, which is bundled with the theme, so nothing is downloaded. Code uses **JetBrains Mono** if you have it installed, or your own monospace font if you've set one under **Settings → Appearance → Font**, then the system default.
+Text uses **Atkinson Hyperlegible** (regular, italic and bold), which is bundled with the theme, so nothing is downloaded. Bold italic is not bundled, to keep the theme small; the browser slants the bold instead. Code uses **JetBrains Mono** if you have it installed, or your own monospace font if you've set one under **Settings → Appearance → Font**, then the system default.
 
 ## Known limitations
 
 - **Folder hues in very long file trees.** Hues are assigned by position among the top-level folders. To stay fast, Obsidian removes rows that are scrolled far out of view, and folders that aren't on the page don't count. So in a long tree a folder's hue can change while you scroll. Small and medium vaults aren't affected. A theme can't run code, so there's no CSS-only fix.
 - **Code block scrolling on mobile** works in Reading view. In Live Preview and Source mode, code lines follow the editor's line-wrapping setting.
-- **The lavender "+" button** in the mobile bottom bar needs Obsidian 1.12 or later; older versions show the default button.
+- **The accent-tinted "+" button** in the mobile bottom bar needs Obsidian 1.12 or later; older versions show the default button.
 
 ## Development
 
