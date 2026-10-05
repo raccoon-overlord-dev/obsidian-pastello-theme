@@ -1,0 +1,7 @@
+.env
+.env.*
+LOCAL-NOTES.md
+node_modules/
+.DS_Store
+test-vault/*
+!test-vault/README.md
