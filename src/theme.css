@@ -4,13 +4,15 @@ id: pastello
 settings:
   - id: pastello-folders
     title: Folder colors
-    description: Give each top-level folder its own hue. Subfolders inherit it.
+    description: Give each top-level folder its own hue. Subfolders inherit it. By name keeps hues stable; by position spreads them best but can shift while scrolling long trees.
     type: class-select
     allowEmpty: false
     default: pastello-folders-colorful
     options:
-      - label: Colorful
+      - label: Colorful by name
         value: pastello-folders-colorful
+      - label: Colorful by position
+        value: pastello-folders-position
       - label: Monochrome
         value: pastello-folders-mono
   - id: pastello-folder-style
@@ -295,8 +297,13 @@ h5,
   color: var(--callout-color);
 }
 /* ---------- File explorer ----------
-   Each top-level folder gets a hue in --pf (lavender, peach, butter, mint, sky, rose,
-   repeating). Everything inside inherits it. Root files have no --pf.
+   Each top-level folder gets a hue in --pf (lavender, peach, butter, mint, sky, rose).
+   Everything inside gets the same hue. Root files have no --pf.
+   Default, by name: the first character of the path picks the hue (letter or digit
+   index mod 6), so every row under "Archive/" matches "a". A leading "0" uses the
+   second digit, so "01 Inbox", "02 Projects" differ. Other first characters (emoji,
+   accented or non-Latin letters) stay neutral. Stable while scrolling.
+   .pastello-folders-position: the hue cycles by position among top-level folders.
    Obsidian 1.12+ puts top-level items straight in `.nav-files-container > div`;
    older versions wrap them in `.nav-folder.mod-root > .nav-folder-children`.
    Known limit: Obsidian removes rows scrolled far out of view, and those folders
@@ -317,12 +324,22 @@ h5,
    ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
    OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE. */
 
-:is(.nav-files-container > div, .nav-folder.mod-root > .nav-folder-children) > .nav-folder:not(.mod-root):nth-child(6n+1 of .nav-folder) { --pf: var(--pastello-lavender); }
-:is(.nav-files-container > div, .nav-folder.mod-root > .nav-folder-children) > .nav-folder:not(.mod-root):nth-child(6n+2 of .nav-folder) { --pf: var(--pastello-peach); }
-:is(.nav-files-container > div, .nav-folder.mod-root > .nav-folder-children) > .nav-folder:not(.mod-root):nth-child(6n+3 of .nav-folder) { --pf: var(--pastello-butter); }
-:is(.nav-files-container > div, .nav-folder.mod-root > .nav-folder-children) > .nav-folder:not(.mod-root):nth-child(6n+4 of .nav-folder) { --pf: var(--pastello-mint); }
-:is(.nav-files-container > div, .nav-folder.mod-root > .nav-folder-children) > .nav-folder:not(.mod-root):nth-child(6n+5 of .nav-folder) { --pf: var(--pastello-sky); }
-:is(.nav-files-container > div, .nav-folder.mod-root > .nav-folder-children) > .nav-folder:not(.mod-root):nth-child(6n+6 of .nav-folder) { --pf: var(--pastello-rose); }
+/* By name. Zero specificity, so a user snippet can pin a hue. The "0x" entries
+   win over "0" because lavender comes first. */
+:where(body:not(.pastello-folders-position) .nav-files-container :is(.nav-folder-title, .nav-file-title[data-path*="/"])):where([data-path^="a" i], [data-path^="g" i], [data-path^="m" i], [data-path^="s" i], [data-path^="y" i], [data-path^="0"], [data-path^="6"], [data-path^="00"], [data-path^="06"]) { --pf: var(--pastello-lavender); }
+:where(body:not(.pastello-folders-position) .nav-files-container :is(.nav-folder-title, .nav-file-title[data-path*="/"])):where([data-path^="b" i], [data-path^="h" i], [data-path^="n" i], [data-path^="t" i], [data-path^="z" i], [data-path^="1"], [data-path^="7"], [data-path^="01"], [data-path^="07"]) { --pf: var(--pastello-peach); }
+:where(body:not(.pastello-folders-position) .nav-files-container :is(.nav-folder-title, .nav-file-title[data-path*="/"])):where([data-path^="c" i], [data-path^="i" i], [data-path^="o" i], [data-path^="u" i], [data-path^="2"], [data-path^="8"], [data-path^="02"], [data-path^="08"]) { --pf: var(--pastello-butter); }
+:where(body:not(.pastello-folders-position) .nav-files-container :is(.nav-folder-title, .nav-file-title[data-path*="/"])):where([data-path^="d" i], [data-path^="j" i], [data-path^="p" i], [data-path^="v" i], [data-path^="3"], [data-path^="9"], [data-path^="03"], [data-path^="09"]) { --pf: var(--pastello-mint); }
+:where(body:not(.pastello-folders-position) .nav-files-container :is(.nav-folder-title, .nav-file-title[data-path*="/"])):where([data-path^="e" i], [data-path^="k" i], [data-path^="q" i], [data-path^="w" i], [data-path^="4"], [data-path^="04"]) { --pf: var(--pastello-sky); }
+:where(body:not(.pastello-folders-position) .nav-files-container :is(.nav-folder-title, .nav-file-title[data-path*="/"])):where([data-path^="f" i], [data-path^="l" i], [data-path^="r" i], [data-path^="x" i], [data-path^="5"], [data-path^="05"]) { --pf: var(--pastello-rose); }
+
+/* By position */
+.pastello-folders-position :is(.nav-files-container > div, .nav-folder.mod-root > .nav-folder-children) > .nav-folder:not(.mod-root):nth-child(6n+1 of .nav-folder) { --pf: var(--pastello-lavender); }
+.pastello-folders-position :is(.nav-files-container > div, .nav-folder.mod-root > .nav-folder-children) > .nav-folder:not(.mod-root):nth-child(6n+2 of .nav-folder) { --pf: var(--pastello-peach); }
+.pastello-folders-position :is(.nav-files-container > div, .nav-folder.mod-root > .nav-folder-children) > .nav-folder:not(.mod-root):nth-child(6n+3 of .nav-folder) { --pf: var(--pastello-butter); }
+.pastello-folders-position :is(.nav-files-container > div, .nav-folder.mod-root > .nav-folder-children) > .nav-folder:not(.mod-root):nth-child(6n+4 of .nav-folder) { --pf: var(--pastello-mint); }
+.pastello-folders-position :is(.nav-files-container > div, .nav-folder.mod-root > .nav-folder-children) > .nav-folder:not(.mod-root):nth-child(6n+5 of .nav-folder) { --pf: var(--pastello-sky); }
+.pastello-folders-position :is(.nav-files-container > div, .nav-folder.mod-root > .nav-folder-children) > .nav-folder:not(.mod-root):nth-child(6n+6 of .nav-folder) { --pf: var(--pastello-rose); }
 
 .nav-files-container {
   --nav-item-size: 14px;
@@ -335,11 +352,6 @@ h5,
   --nav-collapse-icon-color: var(--text-faint);
   --nav-collapse-icon-color-collapsed: var(--text-faint);
   --pastello-tree-icon-size: 14px;
-}
-
-/* File icon tone. Resolves to nothing outside a hued folder, so root files fall back to faint. */
-.nav-files-container .nav-folder {
-  --pf-file: color-mix(in oklch, var(--pf) 70%, transparent);
 }
 
 /* Right-to-left layouts mirror the padding, as Obsidian does. */
@@ -361,6 +373,8 @@ h5,
   --pastello-icon: "\e0d7";
 }
 .nav-files-container .nav-file-title {
+  /* Invalid without --pf, so root files fall back to faint. */
+  --pf-file: color-mix(in oklch, var(--pf) 70%, transparent);
   --pastello-icon-color: var(--pf-file, var(--text-faint));
   --pastello-icon: "\e0cc";
 }
