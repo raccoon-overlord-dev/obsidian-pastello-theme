@@ -427,11 +427,15 @@ h5,
   --pastello-icon-color: var(--text-faint);
 }
 
-/* Icons */
-.nav-files-container .nav-folder-title-content::before,
-.nav-files-container .nav-file-title-content::before {
+/* Icons. On the row, not the title text: the text element becomes
+   contenteditable while renaming, and an icon inside it puts the caret
+   before the icon once the name is empty. Replaces Obsidian's zero-width
+   .tree-item-self::before baseline helper. */
+.nav-files-container .nav-folder-title::before,
+.nav-files-container .nav-file-title::before {
   content: var(--pastello-icon) / "";
   display: inline-block;
+  flex: 0 0 auto;
   width: var(--pastello-tree-icon-size);
   margin-inline-end: 7px;
   vertical-align: -0.15em;

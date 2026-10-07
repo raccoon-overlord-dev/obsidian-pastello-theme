@@ -75,7 +75,7 @@ cd "$REPO"
 
 Only its **warnings** matter for the review; the formatting errors it also prints come from `stylelint-config-standard` and are ignored there. Keep `theme.css` under about 100 KB.
 
-**Releasing:** bump `version` in `manifest.json`, rebuild, commit, then create a GitHub release whose tag is exactly that version (for example `1.0.3`, no `v`) and attach `manifest.json` and `theme.css`.
+**Releasing:** bump `version` in `manifest.json`, rebuild, commit, then create a GitHub release whose tag is exactly that version (for example `1.1.0`, no `v`) and attach `manifest.json` and `theme.css`.
 
 `test-vault/README.md` explains how to set up a test vault with the theme linked in.
 
